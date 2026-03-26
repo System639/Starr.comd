@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandy Shores DOJ:RP - Roblox Roleplay Server</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #ff6b35;
+            --primary-dark: #ff8c42;
+            --dark-bg: #1a1a2e;
+            --dark-bg-light: #16213e;
+            --light-bg: #f5f5f5;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Dark Mode */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #0f0f0f;
+                color: #e0e0e0;
+            }
+
+            :root {
+                --text-primary: #e0e0e0;
+                --text-secondary: #b0b0b0;
+                --light-bg: #1a1a1a;
+                --border-color: #333;
+            }
+
+            nav, footer {
+                background: var(--dark-bg) !important;
+                border-color: var(--border-color) !important;
+            }
+
+            .card, .feature, .section-bg {
+                background: var(--dark-bg-light) !important;
+                border-color: var(--border-color) !important;
+            }
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        nav .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 120px 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--dark-bg);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 2rem;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-bg {
+            background: white;
+            border-radius: 0;
+        }
+
+        .section h2 {
+            font-size: 36px;
+            margin-bottom: 3rem;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            font-size: 20px;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .card-link:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateX(5px);
+        }
+
+        .feature h3 {
+            font-size: 18px;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .feature p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Home Section Grid */
+        .home-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .home-text h2 {
+            font-size: 40px;
+            margin-bottom: 1.5rem;
+        }
+
+        .home-text p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Steps */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .step-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .step h3 {
+            font-size: 18px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Requirements List */
+        .requirements-list {
+            list-style: none;
+            margin: 1rem 0;
+            color: var(--text-secondary);
+        }
+
+        .requirements-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .requirements-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: white;
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        footer .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        footer h4 {
+            font-size: 16px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        footer a:hover {
+            color: var(--primary-color);
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: var(--text-secondary);
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            nav ul.mobile-active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                gap: 0;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            nav ul.mobile-active li {
+                padding: 1rem 2rem;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .home-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .section {
+                padding: 40px 1rem;
+            }
+
+            .section h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showSection('home')">🏜️ Sandy Shores DOJ:RP</a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <ul id="nav-menu">
+                <li><a onclick="showSection('home')">Home</a></li>
+                <li><a onclick="showSection('support')">Support</a></li>
+                <li><a onclick="showSection('howtojoin')">How to Join</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Sandy Shores DOJ:RP</h1>
+            <p>Experience the ultimate roleplay experience in the desert</p>
+            <div class="hero-buttons">
+                <a href="#" onclick="showSection('howtojoin')" class="btn btn-primary">Join Now</a>
+                <a href="#" onclick="showSection('support')" class="btn btn-secondary">Get Support</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home Section -->
+    <div id="home" class="section active section-bg">
+        <div class="container">
+            <div class="home-grid">
+                <div class="home-text">
+                    <h2>Welcome to Sandy Shores</h2>
+                    <p>Sandy Shores DOJ:RP is a premium Roblox roleplaying server set in a stunning desert environment. Join thousands of players in creating your own story, building relationships, and experiencing unique gameplay.</p>
+                    <p>Whether you're interested in law enforcement, business, or civilian life, Sandy Shores offers diverse opportunities for roleplay and community engagement.</p>
+                </div>
+                <div class="features">
+                    <div class="feature">
+                        <h3>🚔 Law Enforcement</h3>
+                        <p>Join the DOJ and maintain order in the desert</p>
+                    </div>
+                    <div class="feature">
+                        <h3>💼 Businesses</h3>
+                        <p>Start and manage your own desert enterprise</p>
+                    </div>
+                    <div class="feature">
+                        <h3>🏠 Civilian Life</h3>
+                        <p>Live freely and create your unique storyline</p>
+                    </div>
+                    <div class="feature">
+                        <h3>👥 Community</h3>
+                        <p>Connect with thousands of active players daily</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Section -->
+    <div id="support" class="section section-bg">
+        <div class="container">
+            <h2>Support</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>💬 Discord Support</h3>
+                    <p>Join our Discord server to get help from our support team and community members. Our staff is available 24/7 to assist you with any questions or issues.</p>
+                    <a href="https://discord.gg/JkW8J5qv7y" target="_blank" class="card-link">Join Discord Server →</a>
+                </div>
+                <div class="card">
+                    <h3>📋 Common Issues</h3>
+                    <p>Having trouble joining? Check your internet connection, make sure Roblox is up to date, and verify you have the game bookmarked for quick access.</p>
+                    <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 14px;">If problems persist, reach out to our Discord support team.</p>
+                </div>
+                <div class="card">
+                    <h3>⚙️ Server Status</h3>
+                    <p>The server is regularly maintained to ensure the best experience. Join our Discord to get real-time updates about server status and maintenance windows.</p>
+                    <a href="https://discord.gg/JkW8J5qv7y" target="_blank" class="card-link">Check Discord Updates →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How to Join Section -->
+    <div id="howtojoin" class="section section-bg">
+        <div class="container">
+            <h2>How to Join</h2>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Open Roblox</h3>
+                    <p>Launch the Roblox app or visit roblox.com</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Find the Game</h3>
+                    <p>Search for "Sandy Shores DOJ:RP"</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Play</h3>
+                    <p>Click the Play button and join the server</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 2rem 0;">
+                <a href="https://www.roblox.com/games/114718054387798/Sandy-Shores-DOJ-RP#!/about" target="_blank" class="btn btn-primary">Open Game on Roblox</a>
+            </div>
+
+            <div class="cards">
+                <div class="card">
+                    <h3>✅ Requirements</h3>
+                    <ul class="requirements-list">
+                        <li>A Roblox account (free)</li>
+                        <li>Roblox app or browser access</li>
+                        <li>Stable internet connection</li>
+                        <li>Headset recommended for voice chat</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>💡 Tips for New Players</h3>
+                    <ul class="requirements-list">
+                        <li>Join the Discord to learn the rules</li>
+                        <li>Start as a civilian to learn the ropes</li>
+                        <li>Be respectful to other players</li>
+                        <li>Explore the beautiful desert map</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div>
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a onclick="showSection('home')">Home</a></li>
+                    <li><a onclick="showSection('support')">Support</a></li>
+                    <li><a onclick="showSection('howtojoin')">How to Join</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="https://discord.gg/JkW8J5qv7y" target="_blank">Discord Server</a></li>
+                    <li><a href="https://www.roblox.com/games/114718054387798/Sandy-Shores-DOJ-RP#!/about" target="_blank">Roblox Game</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Information</h4>
+                <ul>
+                    <li><a onclick="showSection('home')">About</a></li>
+                    <li><a onclick="showSection('support')">Support</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Sandy Shores DOJ:RP. All rights reserved. This is a Roblox fan community.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Show/hide sections
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected section
+            const activeSection = document.getElementById(sectionId);
+            if (activeSection) {
+                activeSection.classList.add('active');
+            }
+
+            // Close mobile menu
+            closeMobileMenu();
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('nav-menu');
+            navMenu.classList.toggle('mobile-active');
+        }
+
+        function closeMobileMenu() {
+            const navMenu = document.getElementById('nav-menu');
+            navMenu.classList.remove('mobile-active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.querySelector('nav');
+            if (!nav.contains(event.target)) {
+                closeMobileMenu();
+            }
+        });
+    </script>
+</body>
+</html>
